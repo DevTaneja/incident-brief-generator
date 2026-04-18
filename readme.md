@@ -38,10 +38,10 @@ The Incident Brief Generator automates the process of gathering and correlating 
 │                         Docker Compose                          │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐      │
-│   │   Backend    │   │   Frontend   │   │ Test Service │      │
-│   │   :8000      │   │   :3000      │   │   :8001      │      │
-│   └──────┬───────┘   └──────┬───────┘   └──────┬───────┘      │
+│   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐        │
+│   │   Backend    │   │   Frontend   │   │ Test Service │        │
+│   │   :8000      │   │   :3000      │   │   :8001      │        │
+│   └──────┬───────┘   └──────┬───────┘   └───────┬──────┘        │
 │          │                  │                   │               │
 │          └──────────────────┼───────────────────┘               │
 │                             │                                   │
@@ -101,7 +101,7 @@ You will need valid credentials for the following services:
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/your-organization/incident-brief-generator.git
+git clone https://github.com/DevTaneja/incident-brief-generator.git
 cd incident-brief-generator
 ```
 
