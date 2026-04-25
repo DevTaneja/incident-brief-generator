@@ -10,6 +10,7 @@ import time
 import asyncio
 import os
 from datetime import datetime
+import random
 
 from fastapi import FastAPI, Request
 import httpx
@@ -86,11 +87,30 @@ async def simulate_request(request: Request):
         "service": "test-service",
         "environment": "development"
     }
-
+    error_messages = [
+        "Database connection failed due to timeout",
+        "API rate limit exceeded - too many requests",
+        "Memory allocation failed - heap limit reached",
+        "Network timeout in payment service",
+        "Authentication token expired",
+        "Redis connection refused",
+        "Kafka producer failed to send message",
+        "S3 bucket access denied",
+        "Lambda function invocation timeout",
+        "DynamoDB provisioned throughput exceeded"
+    ]
+    
+    stack_traces = [
+        "Traceback: Connection refused at line 42",
+        "Traceback: RateLimitError at line 128",
+        "Traceback: MemoryError at line 256",
+        "Traceback: TimeoutError at line 89",
+        "Traceback: AuthError at line 34"
+    ]
     if will_error:
         log_data["level"] = "ERROR"
-        log_data["message"] = "Database connection failed"
-        log_data["stack_trace"] = "Traceback: Connection refused at line 42"
+        log_data["message"] = random.choice(error_messages)
+        log_data["stack_trace"] = random.choice(stack_traces)
         status = 500
         response_message = "Internal Server Error"
     else:
@@ -156,15 +176,30 @@ async def health(request: Request):
 async def force_error(request: Request):
     """Force an error for testing."""
     request_id = request.state.request_id
+    error_messages = [
+        "Database connection failed due to timeout in payment service",
+        "API rate limit exceeded - payment service throttled",
+        "Memory allocation failed in payment worker",
+        "Network timeout connecting to payment gateway",
+        "Authentication failed for payment service"
+    ]
     
+    stack_traces = [
+        "Traceback: Connection refused at line 42",
+        "Traceback: RateLimitError at line 128", 
+        "Traceback: MemoryError at line 256",
+        "Traceback: TimeoutError at line 89",
+        "Traceback: AuthError at line 34"
+    ]
+
     log_data = {
         "requestId": request_id,
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "service": "test-service",
         "environment": "development",
         "level": "ERROR",
-        "message": "Database connection failed due to timeout in payment service",
-        "stack_trace": "Traceback: Connection refused at line 42"
+        "message": random.choice(error_messages),
+        "stack_trace": random.choice(stack_traces)
     }
     
     await send_to_splunk(log_data)
